@@ -1,0 +1,86 @@
+import numpy as np
+import pandas as pd
+from datetime import datetime, timedelta
+
+# Total number of products
+total_products = 1000
+
+#Product categories and sample names mapped to each category
+category_to_products = {
+    'Electronics': ['Smartphone', 'Laptop', 'Headphones', 'Smartwatch'],
+    'Clothing': ['T-Shirt', 'Jeans', 'Jacket', 'Sweater'],
+    'Home & Kitchen': ['Blender', 'Toaster', 'Microwave', 'Coffee Maker'],
+    'Books': ['Novel', 'Biography', 'Science Book', 'Fantasy Book'],
+    'Toys & Games': ['Action Figure', 'Board Game', 'Puzzle', 'Toy Car'],
+    'Vitamins and supplements': ['Multivitamin', 'Fish Oil', 'Vitamin D', 'Protein Powder'],
+    'Skin care': ['Moisturizer', 'Cleanser', 'Sunscreen', 'Toner'],
+    'Makeup': ['Foundation', 'Mascara', 'Lipstick', 'Blush'],
+    'Coats and jackets': ['Winter Coat', 'Rain Jacket', 'Leather Jacket', 'Denim Jacket'],
+    'Bicycles': ['Mountain Bike', 'Road Bike', 'Hybrid Bike', 'Electric Bike'],
+    'Art and crafting materials': ['Paint Set', 'Sketchbook', 'Brushes', 'Canvas'],
+    'Drinkware': ['Coffee Mug', 'Water Bottle', 'Wine Glass', 'Tea Cup'],
+    'Perfume and cologne': ['Eau de Parfum', 'Eau de Toilette', 'Body Spray', 'Perfume Oil'],
+    'Wine': ['Red Wine', 'White Wine', 'Rose Wine', 'Sparkling Wine'],
+    'Socks': ['Wool Socks', 'Cotton Socks', 'Ankle Socks', 'Knee-High Socks'],
+    'Bedsheets': ['Cotton Sheets', 'Silk Sheets', 'Linen Sheets', 'Bamboo Sheets'],
+    'Posters and artwork': ['Framed Poster', 'Canvas Print', 'Digital Art', 'Art Print'],
+    'Candles': ['Scented Candle', 'Soy Candle', 'Beeswax Candle', 'Pillar Candle'],
+    'Bath and body': ['Shower Gel', 'Body Lotion', 'Bath Salts', 'Body Scrub'],
+    'Cookware': ['Saucepan', 'Frying Pan', 'Dutch Oven', 'Grill Pan'],
+    'Nail care': ['Nail Polish', 'Nail File', 'Cuticle Oil', 'Nail Clippers'],
+    'Underwear': ['Boxers', 'Briefs', 'Panties', 'Thongs'],
+    'Motor vehicle parts': ['Brake Pads', 'Oil Filter', 'Spark Plugs', 'Car Battery'],
+    'Mobile phone accessories': ['Phone Case', 'Screen Protector', 'Charger', 'Earbuds'],
+    'Blankets': ['Fleece Blanket', 'Weighted Blanket', 'Electric Blanket', 'Throw Blanket']
+}
+
+# Calculate the number of products per category to reach the total of 1000
+num_categories = len(category_to_products)
+num_products_per_category = total_products // num_categories
+
+product_ids = []
+product_names = []
+product_categories = []
+prices = []
+ratings = []
+num_reviews = []
+stock_quantity = []
+discounts = []
+sales = []
+date_added = []
+
+np.random.seed(42) 
+
+# Populate the dataset
+for category, products in category_to_products.items():
+    for _ in range(num_products_per_category):
+        product = np.random.choice(products)
+        product_ids.append(len(product_ids) + 1)
+        product_names.append(product)
+        product_categories.append(category)
+        prices.append(np.round(np.random.uniform(10, 500), 2))
+        ratings.append(np.round(np.random.uniform(1, 5), 1))
+        num_reviews.append(np.random.randint(0, 5000))
+        stock_quantity.append(np.random.randint(0, 1000))
+        discounts.append(np.round(np.random.uniform(0, 0.5), 2))
+        sales.append(np.random.randint(0, 2000))
+        date_added.append((datetime.now() - timedelta(days=np.random.randint(1, 365))).strftime('%Y-%m-%d'))
+
+# Combine data into a structured format
+data = {
+    'ProductID': product_ids,
+    'ProductName': product_names,
+    'Category': product_categories,
+    'Price': prices,
+    'Rating': ratings,
+    'NumReviews': num_reviews,
+    'StockQuantity': stock_quantity,
+    'Discount': discounts,
+    'Sales': sales,
+    'DateAdded': date_added
+}
+df = pd.DataFrame(data)
+print(df.head())
+
+# Save to CSV
+df.to_csv('ecommerce_product_dataset.csv', index=False)
